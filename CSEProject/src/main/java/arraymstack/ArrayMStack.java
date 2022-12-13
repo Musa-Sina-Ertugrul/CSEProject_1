@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.cseproject;
+package arraymstack;
 
 /**
  *
@@ -15,7 +15,7 @@ public class ArrayMStack<AnyType> {
     int length;
     int pieces;
     // I added base and it points this because, when we rebuild this item 
-    //we cannot point new item with thic clause so i point it with base pointer 
+    //we cannot point new item with this clause so i point it with base pointer 
     ArrayMStack base;
 
     public ArrayMStack(int length, int piece) {

@@ -38,4 +38,19 @@ public class BST {
         }
         System.out.print(node.data + " ");
     }
+    
+    void search(String word){
+        BSTNode node = this.root;
+        int value = (int) word.charAt(1);
+        while(node.data.equals(word) && node != null){
+            if(value< node.value)
+                node = node.left;
+            else
+                node = node.right;
+        }
+        
+        if(node== null)
+            return;
+        System.out.println(node.data + " " + node.meaning);
+    }
 }

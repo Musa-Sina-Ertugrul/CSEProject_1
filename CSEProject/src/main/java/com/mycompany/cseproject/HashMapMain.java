@@ -17,5 +17,6 @@ public class HashMapMain {
         HashMap hashMap = new HashMap(5);
         hashMap.insertFromTxT();
         hashMap.show();
+        hashMap.search("sham");
     }
 }

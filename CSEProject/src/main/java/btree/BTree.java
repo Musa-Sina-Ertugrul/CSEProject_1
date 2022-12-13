@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.cseproject;
+package btree;
 
 import java.util.ArrayList;
 
@@ -85,7 +85,7 @@ public class BTree<AnyType> {
         BTreeNode<Integer> tmp = this.root;
         BTreeNode<Integer> prevTmp = null;
         int indexConnection = 0;
-        while (!tmp.leaf) {
+        while (!tmp.leaf && !this.isThere(tmp.arrayNum, value)) {
             prevTmp = tmp;
             indexConnection = this.indexFinder(tmp, value);
             tmp = tmp.arrayChildren[indexConnection];
@@ -94,6 +94,23 @@ public class BTree<AnyType> {
         multi.index = indexConnection;
         multi.node = prevTmp;
         return multi;
+    }
+
+    boolean isThere(Integer[] array, int value) {
+        int index = 0;
+        if (array[index] == value) {
+            return true;
+        }
+        while (array[index] != value) {
+            index++;
+            if (array[index] == null) {
+                break;
+            }
+            if (array[index] == value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // this method breake node create new nodes and attach them to btree
@@ -122,7 +139,7 @@ public class BTree<AnyType> {
             prevTmp.leaf = false;
             this.insert(prevTmp, value);
         }
-        // this part re insert and delete necessery items
+        // this part re insert and delete unnecessery items
         int index = ((this.T - 1) / 2) + 1;
         newTmp.arrayNum = tmp.arrayNum.clone();
         for (int i = 0; i < index - 1; i++) {
@@ -144,17 +161,23 @@ public class BTree<AnyType> {
                 // this part makes decision to shift new element to right of old element or left of old element
                 BTreeNode<Integer> tmpShift = null;
                 BTreeNode<Integer> prevTmpShift = null;
-                for (int i = multi.index; i < prevTmp.index - 1; i++) {
-                    prevTmpShift = prevTmp.arrayChildren[i];
-                    prevTmp.arrayChildren[i] = tmpShift;
-                    tmpShift = prevTmp.arrayChildren[i + 1];
-                    prevTmp.arrayChildren[i + 1] = prevTmpShift;
-                }
                 if (tmp.arrayNum[0] > newTmp.arrayNum[0]) {
+                    for (int i = multi.index; i < prevTmp.index - 1; i++) {
+                        prevTmpShift = prevTmp.arrayChildren[i];
+                        prevTmp.arrayChildren[i] = tmpShift;
+                        tmpShift = prevTmp.arrayChildren[i + 1];
+                        prevTmp.arrayChildren[i + 1] = prevTmpShift;
+                    }
                     prevTmp.arrayChildren[prevTmp.index] = tmpShift;
                     prevTmp.arrayChildren[multi.index + 1] = tmp;
                     prevTmp.arrayChildren[multi.index] = newTmp;
                 } else if (tmp.arrayNum[0] < newTmp.arrayNum[0]) {
+                    for (int i = multi.index + 1; i < prevTmp.index - 1; i++) {
+                        prevTmpShift = prevTmp.arrayChildren[i];
+                        prevTmp.arrayChildren[i] = tmpShift;
+                        tmpShift = prevTmp.arrayChildren[i + 1];
+                        prevTmp.arrayChildren[i + 1] = prevTmpShift;
+                    }
                     prevTmp.arrayChildren[prevTmp.index] = tmpShift;
                     prevTmp.arrayChildren[multi.index + 1] = newTmp;
                     prevTmp.arrayChildren[multi.index] = tmp;
@@ -168,14 +191,14 @@ public class BTree<AnyType> {
                 prevTmp.leaf = false;
             }
         } else {
-            // this part making new root node and attach it to new mid leaf
+            // this part making new root node and attach it to new mid leafs
             prevTmp.arrayChildren[1] = newTmp;
             prevTmp.arrayChildren[0] = tmp;
             BTreeNode[] tmpShift = new BTreeNode[(this.T - 1) / 2];
             int indexShift = 0;
             for (int i = ((this.T - 1) / 2) + 1; i < this.T; i++) {
                 newTmp.arrayChildren[indexShift] = tmp.arrayChildren[i];
-                index++;
+                indexShift++;
                 tmp.arrayChildren[i] = null;
             }
         }
@@ -183,6 +206,7 @@ public class BTree<AnyType> {
         tmp.index = (this.T - 1) / 2;
         return prevTmp;
     }
+
     // this part find index for number
     int indexFinder(BTreeNode<Integer> node, int value) {
         int index = 0;
@@ -200,6 +224,7 @@ public class BTree<AnyType> {
         }
         return index;
     }
+
     // this part shifts numbers
     Integer[] shifter(BTreeNode<Integer> node, int value) {
         int index = 0;
@@ -223,7 +248,7 @@ public class BTree<AnyType> {
             return;
         }
         for (int i = 0; i < node.index; i++) {
-            System.out.print(node.arrayNum[i]);
+            System.out.print(node.arrayNum[i] + ",");
         }
         System.out.println(" level " + String.valueOf(level));
         if (node.leaf) {
@@ -240,6 +265,7 @@ public class BTree<AnyType> {
             this.insert(null, array[i]);
         }
     }
+
     // this part adds number of btree to arraylist
     private ArrayList<Integer> sortedArray(BTreeNode<Integer> node, ArrayList<Integer> array) {
         if (node == null) {
@@ -252,7 +278,7 @@ public class BTree<AnyType> {
             }
         }
         for (int i = 0; i < node.index; i++) {
-            if (node.leaf) {
+            if (node.leaf&&node.arrayNum[i] != null) {
                 array.add(node.arrayNum[i]);
             }
         }

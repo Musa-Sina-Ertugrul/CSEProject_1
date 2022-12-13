@@ -51,4 +51,9 @@ public class HashMap {
              this.insert(words[0], words[1]);
         }
     }
+    
+    void search(String word){
+        int index = this.hash(word);
+        this.array[index].bst.search(word);
+    }
 }

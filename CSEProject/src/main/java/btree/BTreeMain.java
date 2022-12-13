@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.cseproject;
+package btree;
 
 /**
  *
@@ -32,10 +32,10 @@ public class BTreeMain {
         bTree.insert(null, 17);
         bTree.insert(null, 18);
         bTree.display(bTree.root,0);
-        /*Integer[] array = {5,6,4,8,10,22,35,46,15,52};
+        Integer[] array = {5,6,4,8,10,22,35,46,15,52};
         array = bTree.sort(array);
         for(int i = 0; i< array.length;i++){
             System.out.print(" "+array[i]);
-        }*/
+        }
     }
 }
